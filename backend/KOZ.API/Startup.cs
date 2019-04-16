@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using KOZ.API.Data.DbContexts;
+using KOZ.API.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,7 @@ namespace KOZ.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             UpdateDatabase(app);
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseMvc();
         }
 
