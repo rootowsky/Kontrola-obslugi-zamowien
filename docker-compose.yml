@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  koz.api:
+    image: kozapi
+    build:
+      context: backend
+      dockerfile: KOZ.API/Dockerfile
