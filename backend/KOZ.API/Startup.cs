@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using KOZ.API.Data.DbContexts;
+using KOZ.API.Data.Repositories;
 using KOZ.API.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +34,11 @@ namespace KOZ.API
         {
             var connectionString = Configuration.GetConnectionString("OrdersContext");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped(p => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfiles(Assembly.GetExecutingAssembly().GetName().Name);
+            }).CreateMapper());
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddDbContext<OrdersContext>(
                 options => options.UseSqlServer(connectionString));
         }

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B938303B-5737-4A62-829B-60B8FBD11D34}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOZ.API", "backend\KOZ.API\KOZ.API.csproj", "{03BB9138-1191-4F65-96D4-6E027E404A3E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOZ.API.Tests", "backend\KOZ.API.Tests\KOZ.API.Tests.csproj", "{370A34E2-4F07-42BD-ABFC-7B7705E08D39}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B938303B-5737-4A62-829B-60B8FBD11D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B938303B-5737-4A62-829B-60B8FBD11D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B938303B-5737-4A62-829B-60B8FBD11D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B938303B-5737-4A62-829B-60B8FBD11D34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{03BB9138-1191-4F65-96D4-6E027E404A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03BB9138-1191-4F65-96D4-6E027E404A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03BB9138-1191-4F65-96D4-6E027E404A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
