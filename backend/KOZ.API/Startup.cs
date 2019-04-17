@@ -45,7 +45,7 @@ namespace KOZ.API
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            UpdateDatabase(app);
+            TryUpdateDatabase(app);
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMvc();
         }
@@ -56,6 +56,33 @@ namespace KOZ.API
                 app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 serviceScope.ServiceProvider.GetService<OrdersContext>().Database.Migrate();
+            }
+        }
+
+        /*
+        This is only for development of this project.
+        On production I would use container orchestrator
+        to take care of connection resillency.
+        */
+        private static void TryUpdateDatabase(IApplicationBuilder app)
+        {
+            const int waitTimeSeconds = 1;
+            const int connectionAttemptsNumber = 100;
+            for (var i = 0; i < connectionAttemptsNumber; i++)
+            {
+                try
+                {
+                    UpdateDatabase(app);
+                }
+                catch
+                {
+                    Thread.Sleep(waitTimeSeconds * 1000);
+                    Debug.WriteLine($"Waiting for posgress {i}/{connectionAttemptsNumber} tries.");
+
+                    continue;
+                }
+
+                break;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,8 +27,8 @@ namespace KOZ.API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-
-            return new string[] { "value1", "value2" };
+            //var workerDtos = mapper.Map<IEnumerable<Worker>,List<Worker
+            return Ok();
         }
 
         [HttpGet("{id}", Name = "Get")]

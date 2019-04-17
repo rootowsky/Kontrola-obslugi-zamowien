@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  koz.api:
+    image: kozapi
+    build:
+      context: .
+      dockerfile: backend/KOZ.API/Dockerfile
+    depends_on:
+    - database
+  database:
+    image: microsoft/mssql-server-linux:2017-CU13
+

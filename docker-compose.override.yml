@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  koz.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "63655:80"
+  database:
+    environment:
+      SA_PASSWORD: "test123!@#"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
