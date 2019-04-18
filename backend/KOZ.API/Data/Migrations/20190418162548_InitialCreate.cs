@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace KOZ.API.Data.Migrations
+namespace KOZ.API.data.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -14,6 +14,7 @@ namespace KOZ.API.Data.Migrations
                 {
                     OrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ProcessingWorkerId = table.Column<int>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     Executive = table.Column<string>(nullable: true)
@@ -29,7 +30,6 @@ namespace KOZ.API.Data.Migrations
                 {
                     WorkerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OrderId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     TimeIntervalMs = table.Column<int>(nullable: false)
                 },

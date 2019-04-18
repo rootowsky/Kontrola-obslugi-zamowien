@@ -60,7 +60,7 @@ namespace KOZ.API.Data.Repositories
         private bool TryToUpdate(Worker worker)
         {
             bool instExists =
-                dbContext.Workers.Any(w => w.WorkerId== worker.OrderId);
+                dbContext.Workers.Any(w => w.WorkerId== worker.WorkerId);
 
             if (instExists)
             {

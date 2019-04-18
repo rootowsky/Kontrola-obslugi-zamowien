@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using KOZ.API.Data.DataClasses;
+using KOZ.API.Data.Dtos.WorkerDtos;
 using KOZ.API.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,29 +28,71 @@ namespace KOZ.API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            //var workerDtos = mapper.Map<IEnumerable<Worker>,List<Worker
-            return Ok();
+            IEnumerable<Worker> workers = workersRepository.GetAll();
+            return Ok(mapper.Map<IEnumerable<Worker>, List<WorkerReadAllDto>>(workers));
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
         {
-            return "value";
+            Worker worker = workersRepository.GetById(id);
+            var workerReadDto = mapper.Map<WorkerReadDto>(worker);
+            return (workerReadDto != null) ? (IActionResult)Ok(workerReadDto) : NotFound();
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(WorkerInsertDto workerInsertDto)
         {
+            var worker = mapper.Map<Worker>(workerInsertDto);
+
+            if (worker == null)
+            {
+                return BadRequest();
+            }
+
+            workersRepository.Insert(worker);
+            workersRepository.Save();
+
+            var workerReadDto = mapper.Map<WorkerReadDto>(worker);
+
+            return CreatedAtAction("GetById", new { id = worker.WorkerId }, workerReadDto);
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put( WorkerUpdateDto workerUpdateDto)
         {
+            Worker workerToUpdate = workersRepository 
+                .GetById(workerUpdateDto.WorkerId);
+
+            if (workerToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            Worker newOrder = mapper.Map(workerUpdateDto, workerToUpdate);
+
+            workersRepository.Update(newOrder);
+            workersRepository.Save();
+
+            var orderReadDto = mapper.Map<WorkerReadDto>(newOrder);
+
+            return Ok(orderReadDto);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var workerToDelete = workersRepository.GetById(id);
+
+            if(workerToDelete == null)
+            {
+                return NotFound();
+            }
+
+            workersRepository.Delete(workerToDelete);
+            workersRepository.Save();
+
+            return NoContent();
         }
     }
 }

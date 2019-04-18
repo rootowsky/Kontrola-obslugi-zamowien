@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KOZ.API.Data.Migrations
+namespace KOZ.API.data.Migrations
 {
     [DbContext(typeof(OrdersContext))]
     partial class OrdersContextModelSnapshot : ModelSnapshot
@@ -29,6 +29,8 @@ namespace KOZ.API.Data.Migrations
 
                     b.Property<string>("Executive");
 
+                    b.Property<int?>("ProcessingWorkerId");
+
                     b.Property<int>("Status");
 
                     b.HasKey("OrderId");
@@ -44,8 +46,6 @@ namespace KOZ.API.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<int>("OrderId");
 
                     b.Property<int>("TimeIntervalMs");
 

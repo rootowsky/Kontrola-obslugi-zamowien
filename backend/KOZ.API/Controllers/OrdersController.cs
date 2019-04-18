@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using KOZ.API.Controllers.RequestParameters;
 using KOZ.API.Data.DataClasses;
 using KOZ.API.Data.Dtos;
 using KOZ.API.Data.Enums;
@@ -17,18 +18,26 @@ namespace KOZ.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersRepository ordersRepository;
+        private readonly IRepository<Worker> workersRepository;
         private readonly IMapper mapper;
 
-        public OrdersController(IOrdersRepository ordersRepository, IMapper mapper)
+        public OrdersController(IOrdersRepository ordersRepository, IRepository<Worker> workersRepository, IMapper mapper)
         {
             this.ordersRepository = ordersRepository;
+            this.workersRepository = workersRepository;
             this.mapper = mapper;
         }
 
-        [HttpGet("search")]
-        public IActionResult GetByStatus([Required] [FromQuery(Name = nameof(Order.Status))] OrderStatus status)
+        [HttpGet]
+        public IActionResult GetAll( [FromQuery] GetOrdersParameters getOrdersParameters)
         {
-            IEnumerable<Order> orders = ordersRepository.GetByStatus(status);
+            if(getOrdersParameters.ProcessingWorkerId.HasValue && 
+               workersRepository.GetById(getOrdersParameters.ProcessingWorkerId.Value) == null)
+            {
+                return BadRequest();
+            }
+
+            IEnumerable<Order> orders = ordersRepository.GetFiltered(getOrdersParameters);
             return Ok(mapper.Map<IEnumerable<Order>, List<OrderByStatusReadDto>>(orders));
         }
 
@@ -59,7 +68,7 @@ namespace KOZ.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(OrderUpdateDto orderUpdateDto)
+        public IActionResult Put([FromQuery] OrderUpdateDto orderUpdateDto)
         {
             Order orderToUpdate = ordersRepository
                 .GetById(orderUpdateDto.OrderId);
@@ -78,5 +87,7 @@ namespace KOZ.API.Controllers
 
             return Ok(orderReadDto);
         }
+
+
     }
 }

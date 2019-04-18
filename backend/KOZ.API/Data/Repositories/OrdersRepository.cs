@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KOZ.API.Controllers.RequestParameters;
 using KOZ.API.Data.DataClasses;
 using KOZ.API.Data.DbContexts;
 using KOZ.API.Data.Enums;
@@ -56,9 +57,34 @@ namespace KOZ.API.Data.Repositories
             dbContext.SaveChanges();
         }
 
-        public IEnumerable<Order> GetByStatus(OrderStatus status)
+        public IEnumerable<Order> GetFiltered(GetOrdersParameters getOrdersParameters)
         {
-            return dbContext.Orders.Where(order => order.Status == status);
+            var query = dbContext.Orders.AsEnumerable();
+
+            query = FilterByStatus(query, getOrdersParameters.Status);
+            query = FilterByWorkerId(query, getOrdersParameters.ProcessingWorkerId);
+            
+            return query;
+        }
+
+        private IEnumerable<Order> FilterByWorkerId(IEnumerable<Order> query, int? workerId)
+        {
+            if(workerId.HasValue)
+            {
+                return query.Where(order => order.ProcessingWorkerId == workerId);
+            }
+
+            return query;
+        }
+
+        private IEnumerable<Order> FilterByStatus(IEnumerable<Order> query, OrderStatus? status)
+        {
+            if(status.HasValue)
+            {
+                return query.Where(order => order.Status == status);
+            }
+
+            return query;
         }
 
         private bool TryToUpdate(Order order)

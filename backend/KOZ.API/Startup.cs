@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using KOZ.API.Data.DataClasses;
 
 namespace KOZ.API
 {
@@ -39,6 +40,7 @@ namespace KOZ.API
                 cfg.AddProfiles(Assembly.GetExecutingAssembly().GetName().Name);
             }).CreateMapper());
             services.AddScoped<IOrdersRepository, OrdersRepository>();
+            services.AddScoped<IRepository<Worker>, WorkersRepository>();
             services.AddDbContext<OrdersContext>(
                 options => options.UseSqlServer(connectionString));
         }

@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace KOZ.API.Data.DataClasses
+namespace KOZ.API.Data.Dtos.WorkerDtos
 {
-    public class Worker
+    public class WorkerReadDto
     {
-        [Key]
         public int WorkerId { get; set; }
-        [Required]
         public string Name { get; set; }
         public int TimeIntervalMs { get; set; }
     }

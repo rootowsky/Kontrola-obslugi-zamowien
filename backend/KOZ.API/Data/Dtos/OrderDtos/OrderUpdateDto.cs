@@ -9,6 +9,7 @@ namespace KOZ.API.Data.Dtos
     public class OrderUpdateDto
     {
         public int OrderId { get; set; }
+        public int? ProcessingWorkerId { get; set; }
         public OrderStatus Status { get; set; }
     }
 }

@@ -8,7 +8,8 @@ namespace KOZ.API.Data.Enums
     public enum OrderStatus
     {
         Waiting = 0,
-        Finished = 1
+        InProgress = 1,
+        Finished = 2
     }
 
 }
