@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using KOZ.API.Data.DataClasses;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace KOZ.API
 {
@@ -43,11 +44,24 @@ namespace KOZ.API
             services.AddScoped<IRepository<Worker>, WorkersRepository>();
             services.AddDbContext<OrdersContext>(
                 options => options.UseSqlServer(connectionString));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "KOZ API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             TryUpdateDatabase(app);
+            const string SwaggerJsonPath = "/api/swagger/v1/swagger.json";
+            app.UseSwagger(c => c.RouteTemplate = "/api/swagger/{documentName}/swagger.json");
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint(SwaggerJsonPath, "Swagger API for Derms Registration Web API.");
+                c.RoutePrefix = "api/swagger";
+            });
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMvc();
         }

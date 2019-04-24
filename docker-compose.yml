@@ -8,6 +8,19 @@ services:
       dockerfile: backend/KOZ.API/Dockerfile
     depends_on:
     - database
+    volumes:
+      - "./backend/KOZ.API/appsettings.json:/usr/app"
   database:
     image: microsoft/mssql-server-linux:2017-CU13
+#  frontend:
+#    image: frontend
+#    build:
+#      context: frontend
+#      dockerfile: Dockerfile
+#    environment:
+#      - NODE_ENV=development
+#    volumes:
+#      - "./frontend/:/usr/app"
+#    ports:
+#      - "3000:3000"
 

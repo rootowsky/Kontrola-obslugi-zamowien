@@ -68,7 +68,7 @@ namespace KOZ.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromQuery] OrderUpdateDto orderUpdateDto)
+        public IActionResult Put(OrderUpdateDto orderUpdateDto)
         {
             Order orderToUpdate = ordersRepository
                 .GetById(orderUpdateDto.OrderId);
