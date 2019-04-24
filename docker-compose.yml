@@ -9,7 +9,7 @@ services:
     depends_on:
     - database
     volumes:
-      - "./backend/KOZ.API/appsettings.json:/usr/app"
+      - "./backend/KOZ.API/appsettings.json:/app/appsettings.json"
   database:
     image: microsoft/mssql-server-linux:2017-CU13
 #  frontend:
